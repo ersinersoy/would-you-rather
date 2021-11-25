@@ -136,7 +136,7 @@ class Poll extends Component {
 
                                                 <tr>
                                                     <td>
-                                                        <button type='submit' className='btn' >
+                                                        <button type='submit'  >
                                                             Submit
                                                         </button>
 

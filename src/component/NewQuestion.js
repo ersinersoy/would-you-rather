@@ -82,7 +82,6 @@ class NewQuestion extends Component {
                             <tr>
                                 <td>
                                     <button
-                                        className='btn'
                                         type='submit'
                                         disabled={text1 === '' || text2 === ''}>
                                         Submit
