@@ -109,8 +109,6 @@ class Login extends Component {
 }
 
 function mapStateToProps({ users, authedUser,questions },props) {
-console.log('params',props.params)
-console.log('params ersin',props)
     const question = questions[props.params.id]
     const redirectURL = props.location.state ? props.location.state.pathname : null
 
