@@ -3,19 +3,21 @@ import { connect } from 'react-redux'
 import { setAuthedUser } from '../actions/authedUser'
 import { Navigate } from 'react-router-dom'
 import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 
 
 export const withRouter = (Component) => {
     const Wrapper = (props) => {
         const params = useParams();
         const history = useNavigate();
+        const location = useLocation();
 
 
         return (
             <Component
                 params={params}
                 history={history}
+                location={location}
                 {...props}
             />
         );
@@ -57,7 +59,7 @@ class Login extends Component {
 
     render() {
 
-        const { authedUser,id,question } = this.props
+        const { authedUser,id,question,redirectURL } = this.props
         const { selectedUser } = this.state
 
         if (authedUser !== '' && id!==undefined) {
@@ -69,6 +71,12 @@ class Login extends Component {
             {
                 return <div>404: Page Not Found</div>
             }
+        }
+
+        if (authedUser!=='' && redirectURL!==null)
+        {
+            return <Navigate to={redirectURL} />
+
         }
 
         if (authedUser !== '') {
@@ -101,8 +109,10 @@ class Login extends Component {
 }
 
 function mapStateToProps({ users, authedUser,questions },props) {
-
+console.log('params',props.params)
+console.log('params ersin',props)
     const question = questions[props.params.id]
+    const redirectURL = props.location.state ? props.location.state.pathname : null
 
 
 
@@ -110,7 +120,8 @@ function mapStateToProps({ users, authedUser,questions },props) {
         users: Object.values(users),
         authedUser,
         id:props.params.id,
-        question
+        question,
+        redirectURL
     }
 }
 

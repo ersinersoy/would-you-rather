@@ -2,6 +2,31 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleAddQuestion } from '../actions/shared'
 import { Navigate } from 'react-router-dom'
+import { useParams } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router-dom'
+
+
+
+export const withRouter = (Component) => {
+    const Wrapper = (props) => {
+        const params = useParams();
+        const history = useNavigate();
+        const location = useLocation();
+
+
+        return (
+            <Component
+                params={params}
+                history={history}
+                location={location}
+                {...props}
+            />
+        );
+    };
+
+    return Wrapper;
+};
+
 
 class NewQuestion extends Component {
     state = {
@@ -43,6 +68,12 @@ class NewQuestion extends Component {
 
         if (toHome === true) {
             return <Navigate to='/' />
+        }
+
+        const { authedUser } = this.props
+
+        if (authedUser === '') {
+            return <Navigate to={`/login`} state={{ pathname: '/add' }} />
         }
 
 
@@ -98,4 +129,14 @@ class NewQuestion extends Component {
     }
 }
 
-export default connect()(NewQuestion)
+
+function mapStateToProps({ authedUser }) {
+
+
+    return {
+        authedUser
+    }
+}
+
+
+export default withRouter(connect(mapStateToProps)(NewQuestion))

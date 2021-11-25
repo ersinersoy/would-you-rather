@@ -59,8 +59,6 @@ class Poll extends Component {
 
         if (authedUser === '') {
             return <Navigate to={`/login/${id}`} />
-            //TODO: question id case redirect
-            //{`/questions/${this.state.userId}`}
         }
 
         const { userName, question, avatarURL, isAnsweredByAuthedUser } = this.props
